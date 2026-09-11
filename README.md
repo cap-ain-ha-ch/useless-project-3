@@ -34,3 +34,9 @@ Solved a lot of problems with the current MVP
 
 ## 8.27 PM 
 Took a 45 min break. Back at it again.
+
+## 8.33 PM
+Finished the MVP. im calling it the 
+
+## 9.00 PM 
+Had dinner. Finished with the MVP. i think im gonna call it dead air. 
