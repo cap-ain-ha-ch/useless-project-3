@@ -187,28 +187,28 @@ function updateLevel(seconds) {
 
     let level;
 
-    if (seconds < 5) {
+    if (seconds < 2) {
 
         level = 0;
 
         status.textContent =
             "Normal";
 
-    } else if (seconds < 10) {
+    } else if (seconds < 4) {
 
         level = 1;
 
         status.textContent =
             "Getting quiet...";
 
-    } else if (seconds < 20) {
+    } else if (seconds < 7) {
 
         level = 2;
 
         status.textContent =
             "Awkward silence detected.";
 
-    } else if (seconds < 30) {
+    } else if (seconds < 10) {
 
         level = 3;
 
