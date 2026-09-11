@@ -21,3 +21,8 @@ linking issues with github and local repos.
 Resolved the linking issues with github
 
 ## 6.47 PM
+
+
+## 7.00 PM
+Encountered a problem where the level of awkwardness dont change with respect to time
+
