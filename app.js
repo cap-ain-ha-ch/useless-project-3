@@ -1,4 +1,6 @@
 const startButton = document.getElementById("startButton");
+const meetingButton = document.getElementById("meetingButton");
+
 const status = document.getElementById("status");
 const timer = document.getElementById("timer");
 const intervention = document.getElementById("intervention");
@@ -9,47 +11,35 @@ const levelDisplay = document.getElementById("level");
 
 let audioContext;
 let analyser;
-let microphone;
 let dataArray;
 
 let silenceStart = null;
 let interventionTriggered = false;
 
 
-// Update the displayed threshold
+// Update threshold display
 thresholdSlider.addEventListener("input", () => {
     thresholdValue.textContent = thresholdSlider.value;
 });
 
 
-// Start microphone monitoring
+// ============================
+// MICROPHONE MODE
+// ============================
+
 startButton.addEventListener("click", async () => {
 
     try {
 
-        const stream = await navigator.mediaDevices.getUserMedia({
-            audio: true
-        });
+        const stream =
+            await navigator.mediaDevices.getUserMedia({
+                audio: true
+            });
 
-        audioContext = new AudioContext();
-
-        microphone =
-            audioContext.createMediaStreamSource(stream);
-
-        analyser = audioContext.createAnalyser();
-
-        analyser.fftSize = 512;
-
-        dataArray =
-            new Uint8Array(analyser.fftSize);
-
-        microphone.connect(analyser);
+        startMonitoring(stream);
 
         startButton.disabled = true;
-
-        status.textContent = "Monitoring...";
-
-        detectSound();
+        meetingButton.disabled = true;
 
     } catch (error) {
 
@@ -61,7 +51,71 @@ startButton.addEventListener("click", async () => {
 });
 
 
-// Continuously analyze microphone
+// ============================
+// MEETING / TAB AUDIO MODE
+// ============================
+
+meetingButton.addEventListener("click", async () => {
+
+    try {
+
+        const stream =
+            await navigator.mediaDevices.getDisplayMedia({
+                video: true,
+                audio: true
+            });
+
+        // We only need the audio track
+        startMonitoring(stream);
+
+        meetingButton.disabled = true;
+        startButton.disabled = true;
+
+        status.textContent =
+            "Monitoring meeting audio...";
+
+    } catch (error) {
+
+        console.error(error);
+
+        status.textContent =
+            "Meeting audio capture was cancelled.";
+    }
+});
+
+
+// ============================
+// START AUDIO ANALYSIS
+// ============================
+
+function startMonitoring(stream) {
+
+    audioContext = new AudioContext();
+
+    const source =
+        audioContext.createMediaStreamSource(stream);
+
+    analyser =
+        audioContext.createAnalyser();
+
+    analyser.fftSize = 512;
+
+    dataArray =
+        new Uint8Array(analyser.fftSize);
+
+    source.connect(analyser);
+
+    status.textContent =
+        "Monitoring...";
+
+    detectSound();
+}
+
+
+// ============================
+// ANALYZE AUDIO
+// ============================
+
 function detectSound() {
 
     analyser.getByteTimeDomainData(dataArray);
@@ -88,8 +142,8 @@ function detectSound() {
 
     if (isSilent) {
 
-        // Silence has just started
         if (silenceStart === null) {
+
             silenceStart = Date.now();
         }
 
@@ -105,7 +159,6 @@ function detectSound() {
 
     } else {
 
-        // Someone started talking
         silenceStart = null;
         interventionTriggered = false;
 
@@ -126,7 +179,10 @@ function detectSound() {
 }
 
 
-// Determine the current level
+// ============================
+// LEVEL SYSTEM
+// ============================
+
 function updateLevel(seconds) {
 
     let level;
@@ -174,8 +230,11 @@ function updateLevel(seconds) {
 }
 
 
-// Trigger the intervention only once
-function triggerIntervention() {
+// ============================
+// INTERVENTION
+// ============================
+
+    function triggerIntervention() {
 
     if (interventionTriggered) {
         return;
@@ -183,7 +242,35 @@ function triggerIntervention() {
 
     interventionTriggered = true;
 
-    intervention.textContent =
-        "Someone should probably say something.";
-}
+    const interventions = [
 
+        "Someone should probably say something.",
+
+        "ERROR 418: HUMAN INTERACTION REQUIRED",
+
+        "The meeting has entered a cutscene.",
+
+        "Awkwardness level: CRITICAL.",
+
+        "At this point, literally anything would help.",
+
+        "Someone has to speak. Probably you.",
+
+        "The silence is getting suspicious.",
+
+        "Conversation.exe has stopped responding.",
+
+        "Are we still in a meeting?",
+
+        "This meeting has achieved maximum awkwardness."
+
+    ];
+
+    const randomIndex =
+        Math.floor(
+            Math.random() * interventions.length
+        );
+
+    intervention.textContent =
+        interventions[randomIndex];
+}
