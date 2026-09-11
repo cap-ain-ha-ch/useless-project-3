@@ -14,6 +14,30 @@
 
         <button id="startButton">Start Monitoring</button>
 
+        <div class="controls">
+
+        <label for="threshold">
+            Microphone Threshold
+        </label>
+
+        <input
+            type="range"
+            id="threshold"
+            min="1"
+            max="30"
+            value="5"
+        >
+
+        <span id="thresholdValue">5</span>
+
+        </div>
+
+        <div id="level">
+            Level 0
+        </div>
+
+
+
         <div id="status">Not monitoring</div>
         <div id="timer">Silence: 0s</div>
 

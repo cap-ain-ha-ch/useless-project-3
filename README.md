@@ -17,4 +17,7 @@ Made a basic website which listens for sounds and displays various levels of sil
 ## 6.27 PM Facing a remote branch problem
 linking issues with github and local repos. 
 
-## 6.43 PM Resolved the linking issues with github
+## 6.43 PM 
+Resolved the linking issues with github
+
+## 6.47 PM
