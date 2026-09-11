@@ -9,6 +9,10 @@ const thresholdSlider = document.getElementById("threshold");
 const thresholdValue = document.getElementById("thresholdValue");
 const levelDisplay = document.getElementById("level");
 
+let aiInterventions = [
+    "Well, this is comfortably uncomfortable. Should we all just pretend to look deeply thoughtful for another 30 seconds?",
+    "Did everyone freeze? Or is this just the part of the meeting where we question our life choices in silence?"
+];
 let audioContext;
 let analyser;
 let dataArray;
@@ -161,6 +165,7 @@ function detectSound() {
 
         silenceStart = null;
         interventionTriggered = false;
+        document.body.classList.remove("intervention-mode");
 
         timer.textContent =
             "Silence: 0s";
@@ -217,60 +222,65 @@ function updateLevel(seconds) {
 
     } else {
 
-        level = 4;
+    level = 4;
 
-        status.textContent =
-            "INTERVENTION REQUIRED";
+    status.textContent =
+        "INTERVENTION REQUIRED";
 
-        triggerIntervention();
-    }
+    document.body.classList.add("intervention-mode");
+
+    triggerIntervention();
+}
 
     levelDisplay.textContent =
         `Level ${level}`;
 }
+async function loadAIInterventions() {
 
+    try {
+
+        const response = await fetch("/api/interventions", {
+            method: "POST"
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to load AI interventions");
+        }
+
+        const data = await response.json();
+
+        aiInterventions = data.interventions;
+
+        console.log("AI interventions loaded:", aiInterventions);
+
+    } catch (error) {
+
+        console.error("AI preload failed:", error);
+
+    }
+}
 
 // ============================
 // INTERVENTION
 // ============================
 
-    function triggerIntervention() {
-
+ function triggerIntervention() {
     if (interventionTriggered) {
         return;
     }
 
     interventionTriggered = true;
 
-    const interventions = [
-
-        "Someone should probably say something.",
-
-        "ERROR 418: HUMAN INTERACTION REQUIRED",
-
-        "The meeting has entered a cutscene.",
-
-        "Awkwardness level: CRITICAL.",
-
-        "At this point, literally anything would help.",
-
-        "Someone has to speak. Probably you.",
-
-        "The silence is getting suspicious.",
-
-        "Conversation.exe has stopped responding.",
-
-        "Are we still in a meeting?",
-
-        "This meeting has achieved maximum awkwardness."
-
-    ];
-
     const randomIndex =
-        Math.floor(
-            Math.random() * interventions.length
-        );
+        Math.floor(Math.random() * aiInterventions.length);
 
     intervention.textContent =
-        interventions[randomIndex];
+        aiInterventions[randomIndex];
+
+    const audio = new Audio(
+        `/audio/intervention-${randomIndex + 1}.wav`
+    );
+
+    audio.play();
 }
+//loadAIInterventions();
