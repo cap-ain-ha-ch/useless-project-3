@@ -30,7 +30,7 @@ Encountered a problem where the level of awkwardness dont change with respect to
 I forgot to save the javascript file which led the capture audio button to not work. 
 
 ## 7.44 PM
-Solved a lot of problems with the current MVP
+The silence levels were too lengthy, i had to adjust the levels manually to decrease the wait length. This would make the presentation less cumbersome as well.
 
 ## 8.27 PM 
 Took a 45 min break. Back at it again.
