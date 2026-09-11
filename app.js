@@ -1,4 +1,3 @@
-
 const startButton = document.getElementById("startButton");
 const status = document.getElementById("status");
 const timer = document.getElementById("timer");
