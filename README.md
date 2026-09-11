@@ -105,3 +105,10 @@ Because nobody asked for it.
 
 And yet, once the silence gets awkward enough, someone has to say something.
 
+## Google Cloud Text-to-Speech Experiment
+
+As a further attempt to improve the intervention system, Google Cloud Text-to-Speech was explored as an alternative to the currently cached Gemini-generated audio.
+
+The `@google-cloud/text-to-speech` Node.js package was successfully installed. However, due to the limited time available during the hackathon, full Google Cloud authentication and integration were not completed.
+
+The current demo therefore continues to use pre-generated WAV files. This keeps the demonstration reliable while leaving the architecture open for future integration with a live cloud TTS service.
