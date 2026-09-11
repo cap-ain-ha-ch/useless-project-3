@@ -5,7 +5,7 @@
 ### 4.00 PM - Started
 Brainstorming on ideas.
 
-## 4.30 PM - Amal Shaheen (learning co-ordinator 2024, Campus lead 2025)
+## 4.30 PM - Idea from a friend
 Presented me with an interesting idea which made me curious to reasearch and work up on.
 
 ## 4.45 PM - Research
